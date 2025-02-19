@@ -9,4 +9,10 @@
 # define HEIGHT 600
 # define NAME "mon cub3d"
 
+typedef struct s_data
+{
+    void *mlx;//connexion a la mlx
+    void *win;//pointeur sur une fenetre
+}               t_data;
+
 #endif
