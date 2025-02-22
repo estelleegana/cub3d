@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-unsigned int valid_map(char **argv)
+unsigned int valid_map(char *argv)
 {
     if (ft_strcmp(argv, "ouiii") == 0)
         return 1;
@@ -13,16 +13,17 @@ int close_window_echap(int touche, t_data *data)
     if (touche == 65307)
     {
         mlx_destroy_window(data->mlx, data->win);
+        mlx_destroy_display(data->mlx);//detruit la connexion a mlx
+        free(data->mlx);
         exit(0);
     }
-    return (0);
 }
 
 int close_window_cross(int x, int y, t_data *data)
 {
     mlx_destroy_window(data->mlx, data->win);
+    // mlx_destroy_display(data->mlx);
     exit(0);
-    return (0);
 }
 
 void open_window(t_data data)
@@ -40,10 +41,11 @@ int main(int argc, char **argv)
 {
     t_data  data;
 
-    if (argc != 2)
+    if (argc != 2)  
         printf("program must take a map in format *.cub as a parameter\n");
     else
-    {
+    {   
+        
         if (!valid_map(argv[1]))
             printf("enter a valid map\n");
         else
