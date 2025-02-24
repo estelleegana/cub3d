@@ -12,6 +12,29 @@ void color_window(t_data data)
     }
 }
 
+void init_player_pos(t_player *player)
+{
+    player->x = 4;
+    player->y = 4;
+}
+
+void cast_ray(t_player *player, double ray_angle)
+{
+    init_player_pos(player);
+    double ray_x = player->x;
+    double ray_y = player->y;
+    double ray_dir_x = cos(ray_angle);
+    double ray_dir_y = sin(ray_angle);
+
+    while (map[(int)ray_y][(int)ray_x] == 0)
+    {
+        ray_x += ray_dir_x * 0.1;
+        ray_y += ray_dir_y * 0.1;
+    }
+
+    printf("Ray hit at (%f, %f)\n", ray_x, ray_y);
+}
+
 // void recup_data(int fd)
 // {
 
@@ -36,15 +59,17 @@ int close_window_echap(int touche, t_data *data)
     }
 }
 
-int close_window_cross(int x, int y, t_data *data)
+int close_window_cross(t_data *data)
 {
     mlx_destroy_window(data->mlx, data->win);
     mlx_destroy_display(data->mlx);
+    free(data->mlx);
     exit(0);
 }
 
 void open_window(t_data data)
 {
+    t_player player;
 
     data.mlx = mlx_init();//connexion a la mlx
     if (data.mlx == NULL)
@@ -53,6 +78,8 @@ void open_window(t_data data)
     if (data.win == NULL)
         return;
     // color_window(data);
+    init_player_pos(player);
+    cast_ray(player, 0.0);
     mlx_key_hook(data.win, close_window_echap, &data);
     mlx_hook(data.win, 17, 0L, close_window_cross, &data);//17 = fermeture de la fenetre
     mlx_loop(data.mlx);//la garder ouverte
