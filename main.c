@@ -14,8 +14,9 @@ void color_window(t_data data)
 
 void init_player_pos(t_player *player)
 {
-    player->x = 4;
-    player->y = 4;
+    player->x = 4.4;
+    player->y = 4.4;
+    player->angle = 2.2;
 }
 
 void cast_ray(t_player *player, double ray_angle)
@@ -78,8 +79,8 @@ void open_window(t_data data)
     if (data.win == NULL)
         return;
     // color_window(data);
-    init_player_pos(player);
-    cast_ray(player, 0.0);
+    init_player_pos(&player);
+    cast_ray(&player, 0.0);
     mlx_key_hook(data.win, close_window_echap, &data);
     mlx_hook(data.win, 17, 0L, close_window_cross, &data);//17 = fermeture de la fenetre
     mlx_loop(data.mlx);//la garder ouverte

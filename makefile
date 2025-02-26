@@ -10,7 +10,7 @@ FLAGS = -Wall -Werror -Wextra
 #include
 INCLUDELIBFT = -L ./libft -lft
 INCLUDEMINILIBX = minilibx-linux/libmlx_Linux.a -lmlx -lXext -lX11 -Lminilibx-linux
-
+INCLUDEMATHS = -lm
 #fichiers sources
 SRCS = main.c \
 
@@ -21,7 +21,7 @@ OBJS = $(SRCS:.c=.o)
 $(NAME) : $(OBJS)
 	make -C libft/
 	# make -C minilibx-linux/
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDELIBFT) $(INCLUDEMINILIBX)
+	$(CC) $(FLAGS) $(OBJS) -o $(NAME) $(INCLUDELIBFT) $(INCLUDEMATHS) $(INCLUDEMINILIBX)
 
 all : $(NAME)
 
