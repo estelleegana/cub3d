@@ -16,6 +16,7 @@ void    init_tex()
         if (!s()->t[i].img)
 			return;
     }
+	printf(BOLD"init img ok\n"RESET);
 	printf("\n");
 }
 
@@ -69,10 +70,13 @@ void init_game()
     s()->win = mlx_new_window(s()->mlx, WIDTH, HEIGHT, NAME);
     if (s()->win == NULL)
 		return;
-	// init_tex();
+	init_tex();
+	s()->img = mlx_new_image(s()->mlx, WIDTH, HEIGHT);
+    s()->pixel_data = mlx_get_data_addr(s()->img, &s()->bpp, &s()->size_line, &s()->endian);
+	mlx_put_image_to_window(s()->mlx, s()->win, s()->img, 0, 0);
 	mlx_hook(s()->win, 17, 0L, close_window_cross, NULL);//17 = fermeture de la fenetre
     mlx_hook(s()->win, 2, 1L<<0, key_press, NULL);//2 = keypress
     mlx_hook(s()->win, 3, 1L<<1, key_release, NULL);//3 = keyrelease
-    mlx_loop_hook(s()->mlx, game_loop, NULL);//raycasting dans game_loop()
+    mlx_loop_hook(s()->mlx, game_loop, NULL);
     mlx_loop(s()->mlx);
 }

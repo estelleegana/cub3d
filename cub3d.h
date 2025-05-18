@@ -89,7 +89,11 @@ typedef struct s_config
 {
     void    *mlx;
     void    *win;
-
+    void   *img;
+    char    *pixel_data;
+    int bpp;
+    int size_line;
+    int endian;
     t_map    map;
     t_decals decals;
     t_texture   *t;

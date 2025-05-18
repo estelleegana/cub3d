@@ -1,11 +1,40 @@
 #include "cub3d.h"
 
+void put_pixel(int x, int y, int color, t_config *game)
+{
+    int index;
+
+    if(x >= WIDTH || y >= HEIGHT || x < 0 || y < 0)
+        return;
+    index = y * game->size_line + x * game->bpp / 8;
+    game->pixel_data[index] = color & 0xFF;
+    game->pixel_data[index + 1] = (color >> 8) & 0xFF;
+    game->pixel_data[index + 2] = (color >> 16) & 0xFF;
+}
+
 void print_playerv2()
 {
 	printf("(X %f, Y %f)\n", s()->p.X, s()->p.Y);
     printf("(dirX %f, dirY %f)\n", s()->p.dirX, s()->p.dirY);
     printf("(planeX %f, planeY %f)\n", s()->p.planeX, s()->p.planeY);
     printf("\n");
+}
+
+void clear_image(t_config *game)
+{
+    for(int y = 0; y < HEIGHT; y++)
+        for(int x = 0; x < WIDTH; x++)
+            put_pixel(x, y, 0, game);
+}
+
+int rgb_to_hex(t_color color) {
+    return (color.r << 16) + (color.g << 8) + color.b;
+}
+
+int get_pixel_color(t_texture *t, int x, int y)
+{
+    char *pixel = t->addr + (y * t->line_len + x * (t->bpp / 8));
+    return *(unsigned int *)pixel;
 }
 
 void draw_vertical_line(int x, double distance, int orientation, double stepX, double stepY)
@@ -19,23 +48,43 @@ void draw_vertical_line(int x, double distance, int orientation, double stepX, d
     if (basDuMur >= HEIGHT)
         basDuMur = HEIGHT - 1;
 
-    if (orientation == 1)//nord et sud
-    {
-        if (stepX > 0)//est
-            color = 0xAAAAAA;
-        else//ouest
-            color = 0x0000FF;
-    }     
-    else//est ouest
-    {
-        if (stepY > 0)//sud
-            color = 0xFFFFFF;
-        else//nord
-            color = 0x00FF00;
-    }
-            
+    stepX += 0;
+    stepY += 0;
+    orientation += 0;
+    // if (orientation == 1)
+    //     color = 0xAAAAAA;   
+    // else
+        color = 0xFFFFFF;
+
+    //parsing
+    s()->decals.floor_color = (t_color){255, 165, 0};
+    s()->decals.ceiling_color = (t_color){255, 0, 0};
+
+    //ciel
+    for (int y = 0; y < hautDuMur; y++)
+        put_pixel(x, y, rgb_to_hex(s()->decals.ceiling_color) , s());
+    
+    //mur
     for (int y = hautDuMur; y <= basDuMur; y++)
-        mlx_pixel_put(s()->mlx, s()->win, x, y, color);
+    {
+        // int d = y * 256 - HEIGHT * 128 + hauteur * 128;
+        // int tex_y = ((d * s()->t[0].h) / hauteur) / 256;
+
+        // // Pour tex_x, calculez en fonction du rayon : ici simplifié
+        // int tex_x = (int)(stepX * s()->t[0].w) % s()->t[0].w;
+
+        // if (tex_x < 0) tex_x += s()->t[0].w;  // Sécurité
+        // if (tex_y < 0) tex_y = 0;
+        // if (tex_y >= s()->t[0].h) tex_y = s()->t[0].h - 1;
+
+        // color = get_pixel_color(&s()->t[0], tex_x, tex_y);
+        put_pixel(x, y, color, s());
+    }
+        
+        
+    //sol
+    for (int y = basDuMur; y < HEIGHT; y++)
+        put_pixel(x, y, rgb_to_hex(s()->decals.floor_color) , s());
 }
 
 //pr chaque colonne x de la largeur de l'ecran
@@ -92,8 +141,14 @@ void cast_ray(int x)
             mapY += stepY;
             orientation = 1;
         }
-        if (s()->map.data[mapX][mapY] == '1')
-            hit = 1;
+        if(mapX < 0 || mapX >= s()->map.line || mapY < 0 || mapY >= s()->map.columns)
+            break;
+        if (s()->map.data[mapX][mapY])
+        {
+            if(s()->map.data[mapX][mapY] == '1')
+                hit = 1;
+        }
+
     }
 
     if (orientation == 0)
@@ -106,14 +161,11 @@ void cast_ray(int x)
 
 int raycasting()
 {
-    // print_playerv2();
-
-    s()->screen.img = mlx_new_image(s()->mlx, WIDTH, HEIGHT);
-    if (!s()->screen.img)
-		return (printf("Error\nCannot init screen.img\n"), 0);
+    print_playerv2();
+    clear_image(s());
     for (int x = 0; x < WIDTH; x++)
         cast_ray(x);
-    mlx_put_image_to_window(s()->mlx, s()->win, s()->screen.img, 0,0);
+    mlx_put_image_to_window(s()->mlx, s()->win, s()->img, 0,0);
     return 0;
 }
 
