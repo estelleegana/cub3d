@@ -34,6 +34,9 @@ void draw_vertical_line(int x, double distance, int orientation, double rayDirX,
     double step = 1.0 * texture->h / hauteur;
     double texPos = (hautDuMur - HEIGHT / 2 + hauteur / 2) * step;
     
+    for (int c = 0; c < hautDuMur; c++)
+        put_pixel(x, c, rgb_to_hex(s()->decals.ceiling_color), s());
+
     for (int y = hautDuMur; y < basDuMur; y++)
     {
         int texY = (int)texPos & (texture->h - 1);
@@ -41,6 +44,8 @@ void draw_vertical_line(int x, double distance, int orientation, double rayDirX,
         int color = *(int *)(texture->addr + (texY * texture->line_len + texX * (texture->bpp / 8)));
         put_pixel(x, y, color, s());
     }
+    for (int f = basDuMur; f < HEIGHT; f++)
+        put_pixel(x, f, rgb_to_hex(s()->decals.floor_color), s());
 }
 
 //pr chaque colonne x de la largeur de l'ecran
