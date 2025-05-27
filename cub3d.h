@@ -35,10 +35,10 @@ typedef struct s_player
 {
     double X;
     double Y;
-    double dirX;
-    double dirY;
-    double planeX;
-    double planeY;
+    double dir_x;
+    double dir_y;
+    double plane_x;
+    double plane_y;
 } t_player;
 
 typedef struct s_texture
@@ -136,7 +136,7 @@ void put_tex_NSEW(int NSEW, int hauteur, int x, int y, int tex_x);
 int rgb_to_hex(t_color color);
 void put_pixel(int x, int y, int color, t_config *game);
 void clear_image();
-void draw_vertical_line(int x, double distance, int orientation, double rayDirX, double rayDirY);
+void draw_vertical_line(int x, double distance, int orientation, double raydir_x, double raydir_y);
 void cast_ray(int x);
 int raycasting();
 

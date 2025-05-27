@@ -1,53 +1,65 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hook_wasd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: estegana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/27 17:56:35 by estegana          #+#    #+#             */
+/*   Updated: 2025/05/27 17:56:38 by estegana         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void    key_w()
+void	key_w(void)
 {
-    double newX;
-    double newY;
+	double	new_x;
+	double	new_y;
 
-    newX = s()->p.X + s()->p.dirX * speed;
-    newY = s()->p.Y + s()->p.dirY * speed;
-    if (s()->map.data[(int)s()->p.Y][(int)newX] != '1')//collision horizontale
-        s()->p.X = newX;
-    if (s()->map.data[(int)newY][(int)s()->p.X] != '1')//collision verticale
-        s()->p.Y = newY;
+	new_x = s()->p.X + s()->p.dir_x * speed;
+	new_y = s()->p.Y + s()->p.dir_y * speed;
+	if (s()->map.data[(int)s()->p.Y][(int)new_x] != '1')
+		s()->p.X = new_x;
+	if (s()->map.data[(int)new_y][(int)s()->p.X] != '1')
+		s()->p.Y = new_y;
 }
 
-void    key_s()
+void	key_s(void)
 {
-    double newX;
-    double newY;
+	double	new_x;
+	double	new_y;
 
-    newX = s()->p.X - s()->p.dirX * speed;
-    newY = s()->p.Y - s()->p.dirY * speed;
-    if (s()->map.data[(int)s()->p.Y][(int)newX] != '1')
-        s()->p.X = newX;
-    if (s()->map.data[(int)newY][(int)s()->p.X]!= '1')
-        s()->p.Y = newY;
+	new_x = s()->p.X - s()->p.dir_x * speed;
+	new_y = s()->p.Y - s()->p.dir_y * speed;
+	if (s()->map.data[(int)s()->p.Y][(int)new_x] != '1')
+		s()->p.X = new_x;
+	if (s()->map.data[(int)new_y][(int)s()->p.X] != '1')
+		s()->p.Y = new_y;
 }
 
-void    key_a()
+void	key_a(void)
 {
-    double newplaneX;
-    double newplaneY;
+	double	newplane_x;
+	double	newplane_y;
 
-    newplaneX = s()->p.X - s()->p.planeX * speed;
-    newplaneY = s()->p.Y - s()->p.planeY * speed;
-    if (s()->map.data[(int)s()->p.Y][(int)newplaneX] != '1')
-        s()->p.X = newplaneX;
-    if (s()->map.data[(int)newplaneY][(int)s()->p.X] != '1')
-        s()->p.Y = newplaneY;
+	newplane_x = s()->p.X - s()->p.plane_x * speed;
+	newplane_y = s()->p.Y - s()->p.plane_y * speed;
+	if (s()->map.data[(int)s()->p.Y][(int)newplane_x] != '1')
+		s()->p.X = newplane_x;
+	if (s()->map.data[(int)newplane_y][(int)s()->p.X] != '1')
+		s()->p.Y = newplane_y;
 }
 
-void    key_d()
+void	key_d(void)
 {
-    double newplaneX;
-    double newplaneY;
+	double	newplane_x;
+	double	newplane_y;
 
-    newplaneX = s()->p.X + s()->p.planeX * speed;
-    newplaneY = s()->p.Y + s()->p.planeY * speed;
-    if (s()->map.data[(int)s()->p.Y][(int)newplaneX] != '1')
-        s()->p.X = newplaneX;
-    if (s()->map.data[(int)newplaneY][(int)s()->p.X] != '1')
-        s()->p.Y = newplaneY;
+	newplane_x = s()->p.X + s()->p.plane_x * speed;
+	newplane_y = s()->p.Y + s()->p.plane_y * speed;
+	if (s()->map.data[(int)s()->p.Y][(int)newplane_x] != '1')
+		s()->p.X = newplane_x;
+	if (s()->map.data[(int)newplane_y][(int)s()->p.X] != '1')
+		s()->p.Y = newplane_y;
 }

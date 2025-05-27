@@ -3,34 +3,28 @@
 //formules des rotations 2D:
 //x' = x * cos(θ) - y * sin(θ)
 //y' = x * sin(θ) + y * cos(θ)
-void    key_left()
+void	key_left(void)
 {
-    double old_dirX;
-    double old_planeX;
+	double	old_dir_x;
+	double	old_plane_x;
 
-    old_dirX = s()->p.dirX;
-    old_planeX = s()->p.planeX;
-
-    //changement de direction
-    s()->p.dirX = s()->p.dirX * cos(-rot_speed) - s()->p.dirY * sin(-rot_speed);
-    s()->p.dirY = old_dirX * sin(-rot_speed) + s()->p.dirY * cos(-rot_speed);
-    //changement de plan de la camera
-    s()->p.planeX = s()->p.planeX * cos(-rot_speed) - s()->p.planeY * sin(-rot_speed);
-    s()->p.planeY = old_planeX * sin(-rot_speed) + s()->p.planeY * cos(-rot_speed);
+	old_dir_x = s()->p.dir_x;
+	old_plane_x = s()->p.plane_x;
+	s()->p.dir_x = s()->p.dir_x * cos(-rot_speed) - s()->p.dir_y * sin(-rot_speed);
+	s()->p.dir_y = old_dir_x * sin(-rot_speed) + s()->p.dir_y * cos(-rot_speed);
+	s()->p.plane_x = s()->p.plane_x * cos(-rot_speed) - s()->p.plane_y * sin(-rot_speed);
+	s()->p.plane_y = old_plane_x * sin(-rot_speed) + s()->p.plane_y * cos(-rot_speed);
 }
 
-void    key_right()
+void	key_right(void)
 {
-    double old_dirX;
-    double old_planeX;
+	double	old_dir_x;
+	double	old_plane_x;
 
-    old_dirX = s()->p.dirX;
-    old_planeX = s()->p.planeX;
-
-    //changement de direction
-    s()->p.dirX = s()->p.dirX * cos(rot_speed) - s()->p.dirY * sin(rot_speed);
-    s()->p.dirY = old_dirX * sin(rot_speed) + s()->p.dirY * cos(rot_speed);
-    //changement de plan de la camera
-    s()->p.planeX = s()->p.planeX * cos(rot_speed) - s()->p.planeY * sin(rot_speed);
-    s()->p.planeY = old_planeX * sin(rot_speed) + s()->p.planeY * cos(rot_speed);
+	old_dir_x = s()->p.dir_x;
+	old_plane_x = s()->p.plane_x;
+	s()->p.dir_x = s()->p.dir_x * cos(rot_speed) - s()->p.dir_y * sin(rot_speed);
+	s()->p.dir_y = old_dir_x * sin(rot_speed) + s()->p.dir_y * cos(rot_speed);
+	s()->p.plane_x = s()->p.plane_x * cos(rot_speed) - s()->p.plane_y * sin(rot_speed);
+	s()->p.plane_y = old_plane_x * sin(rot_speed) + s()->p.plane_y * cos(rot_speed);
 }
