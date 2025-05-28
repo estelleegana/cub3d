@@ -10,6 +10,7 @@ SRC = decals_parse.c \
 	map_parse.c\
 	parse.c\
 	ray_dda.c\
+	ray_draw.c\
 	ray_textures.c\
 	utils_free.c\
 	utils_ray.c \
@@ -51,7 +52,7 @@ fclean: clean
 	@echo "Exécutable supprimé."
 
 norm :
-	norminette $(SRC)
+	norminette $(SRC) cub3d.h
 
 re: fclean all
 

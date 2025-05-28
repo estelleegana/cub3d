@@ -103,6 +103,9 @@ typedef struct s_ray
 	int		hauteur;
 	int		tex_x;
 	int		tex_y;
+	int		mur_haut;
+	int		mur_bas;
+	double	wall_x;
 }	t_ray;
 
 typedef struct s_config
@@ -153,7 +156,6 @@ void		init_game(void);
 void		init_tex(void);
 
 //raycasting
-void		put_tex_NSEW(int NSEW, int hauteur, int x, int y, int tex_x);
 int			rgb_to_hex(t_color color);
 void		put_pixel(int x, int y, int color, t_config *game);
 void		clear_image(void);
@@ -162,6 +164,9 @@ void		init_raycast_variables(int x);
 void		init_raycast_conditions(void);
 void		cast_ray(int x);
 int			raycasting(void);
+void		draw_ceiling(int x, int mur_haut);
+void		draw_wall(int x, int mur_haut, int mur_bas, t_texture *texture);
+void		draw_floor(int x, int mur_bas);
 
 //utils : singleton
 t_config	*s(void);
