@@ -35,10 +35,7 @@ void	free_textures(void)
 	while (i < 4)
 	{
 		if (s()->t[i].img)
-		{
 			mlx_destroy_image(s()->mlx, s()->t[i].img);
-
-		}
 		i++;
 	}
 	mlx_destroy_image(s()->mlx, s()->img);

@@ -48,3 +48,40 @@ void	clear_image(void)
 		y++;
 	}
 }
+
+void	init_raycast_variables(int x)
+{
+	s()->r.camera_x = 2 * x / (double)WIDTH - 1;
+	s()->r.raydir_x = s()->p.dir_x + s()->p.plane_x * s()->r.camera_x;
+	s()->r.raydir_y = s()->p.dir_y + s()->p.plane_y * s()->r.camera_x;
+	s()->r.map_x = (int)s()->p.x;
+	s()->r.map_y = (int)s()->p.y;
+	s()->r.deltadist_x = fabs(1 / s()->r.raydir_x);
+	s()->r.deltadist_y = fabs(1 / s()->r.raydir_y);
+}
+
+void	init_raycast_conditions(void)
+{
+	if (s()->r.raydir_x < 0)
+	{
+		s()->r.step_x = -1;
+		s()->r.sidedist_x = (s()->p.x - s()->r.map_x) * s()->r.deltadist_x;
+	}
+	else
+	{
+		s()->r.step_x = 1;
+		s()->r.sidedist_x = (s()->r.map_x
+			+ 1.0 - s()->p.x) * s()->r.deltadist_x;
+	}
+	if (s()->r.raydir_y < 0)
+	{
+		s()->r.step_y = -1;
+		s()->r.sidedist_y = (s()->p.y - s()->r.map_y) * s()->r.deltadist_y;
+	}
+	else
+	{
+		s()->r.step_y = 1;
+		s()->r.sidedist_y = (s()->r.map_y
+			+ 1.0 - s()->p.y) * s()->r.deltadist_y;
+	}
+}

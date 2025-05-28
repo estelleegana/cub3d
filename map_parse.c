@@ -29,7 +29,8 @@ int	check_map(void)
 		{
 			if (map[i][j] == '\n')
 				map[i][j] = '\0';
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'E' || map[i][j] == 'W')
+			if (map[i][j] == 'N' || map[i][j] == 'S'
+				|| map[i][j] == 'E' || map[i][j] == 'W')
 				player_count++;
 			j++;
 		}

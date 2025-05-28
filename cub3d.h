@@ -100,6 +100,9 @@ typedef struct s_ray
 	int		step_y;
 	double	distance;
 	double	orientation;
+	int		hauteur;
+	int		tex_x;
+	int		tex_y;
 }	t_ray;
 
 typedef struct s_config
@@ -154,6 +157,8 @@ int			rgb_to_hex(t_color color);
 void		put_pixel(int x, int y, int color, t_config *game);
 void		clear_image(void);
 void		draw_vertical_line(int x);
+void		init_raycast_variables(int x);
+void		init_raycast_conditions(void);
 void		cast_ray(int x);
 int			raycasting(void);
 

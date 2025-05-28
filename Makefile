@@ -50,7 +50,7 @@ fclean: clean
 	@echo "Exécutable supprimé."
 
 norm :
-	norminette
+	norminette $(SRC)
 
 re: fclean all
 
