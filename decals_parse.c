@@ -24,6 +24,8 @@ int	handle_files(char *line, t_config *conf, int identifier)
 		filename[len - 1] = '\0';
 	if (ft_strncmp(filename + ft_strlen(filename) - 4, ".xpm\0", 5))
 		return (write(2, "Files must be .xpm\n", 19), 0);
+	if (open(filename, O_DIRECTORY) != -1)
+		return (printf("texture is a directory\n"), 0);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (write(2, "a File can't open\n", 18), 0);
@@ -79,8 +81,8 @@ int	handle_decals(char *filename, t_config *conf)
 	int		fd_decals;
 
 	fd_decals = open(filename, O_RDONLY);
-	if (fd_decals < 0 || fd_decals > 2)
-		return (printf("error: wrong textures\n"), 0);
+	if (fd_decals < 0)
+		return (0);
 	get_nextline = get_next_line(fd_decals);
 	while (get_nextline)
 	{
