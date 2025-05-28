@@ -12,22 +12,6 @@
 
 #include "cub3d.h"
 
-// void print_all_data(void)
-// {
-// 	t_config *conf = s();
-// 	printf("Map:\n");
-// 	for (int i = 0; i < conf->map.line; i++)
-// 	{
-// 		for (int j = 0; j < conf->map.columns; j++)
-// 			printf("%c", conf->map.data[i][j]);
-// 		printf("\n");
-// 	}
-// 	printf("Player position: (%f, %f)\n", conf->p.X, conf->p.Y);
-// 	printf("Player direction: (%f, %f)\n", conf->p.dir_x, conf->p.dir_y);
-// 	printf("Player plane: (%f, %f)\n", conf->p.plane_x, conf->p.plane_y);
-
-// }
-
 int	main(int argc, char **argv)
 {
 	if (argc != 2)

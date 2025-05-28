@@ -93,12 +93,18 @@ void	init_game(void)
 	t_config	*config;
 
 	config = s();
-	s()->mlx = mlx_init();
-	if (s()->mlx == NULL)
-		return ;
+	config->mlx = mlx_init();
+	if (config->mlx == NULL)
+	{
+		free(config->mlx);
+		exit(1);
+	}
 	config->win = mlx_new_window(config->mlx, WIDTH, HEIGHT, NAME);
-	if (s()->win == NULL)
-		return ;
+	if (config->win == NULL)
+	{
+		free(config->win);
+		exit(1);
+	}
 	init_tex();
 	config->img = mlx_new_image(config->mlx, WIDTH, HEIGHT);
 	config->pixel_data = mlx_get_data_addr(config->img, &config->bpp,
