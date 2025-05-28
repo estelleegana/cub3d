@@ -79,6 +79,6 @@ int	game_loop(void)
 		key_left();
 	if (s()->k.right)
 		key_right();
-	raycasting(s());
+	raycasting();
 	return (0);
 }

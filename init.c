@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: estegana <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/28 11:50:30 by estegana          #+#    #+#             */
+/*   Updated: 2025/05/28 11:50:31 by estegana         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	init_tex(void)
@@ -12,31 +24,36 @@ void	init_tex(void)
 	i = 0;
 	while (i < 4)
 	{
-		s()->t[i].img = mlx_xpm_file_to_image(s()->mlx, s()->t[i].path, &s()->t[i].w, &s()->t[i].h);
+		s()->t[i].img = mlx_xpm_file_to_image(s()->mlx,
+		s()->t[i].path, &s()->t[i].w, &s()->t[i].h);
 		if (!s()->t[i].img)
 			return ;
-		s()->t[i].addr = mlx_get_data_addr(s()->t[i].img, &s()->t[i].bpp, &s()->t[i].line_len, &s()->t[i].endian);
+		s()->t[i].addr = mlx_get_data_addr(s()->t[i].img,
+		&s()->t[i].bpp, &s()->t[i].line_len, &s()->t[i].endian);
 		if (!s()->t[i].addr)
 			return ;
 		i++;
 	}
-	printf(BOLD"init tex\n"RESET);
 }
 
 void init_player(void)
 {
-	printf(BOLD GREEN"---------- INIT PLAYER ----------\n"RESET);
-	for (int y = 0; y < s()->map.line; y++)
+	char c;
+	int y;
+	int found;
+
+	y = 0;
+	found = 0;
+	while (y < s()->map.line && !found)
 	{
-		for (int x = 0; x < s()->map.columns; x++)
+		int x = 0;
+		while (x < s()->map.columns && s()->map.data[y][x] && !found)
 		{
-			char c = s()->map.data[y][x];
+			c = s()->map.data[y][x];
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			{
-				printf("x et y : %d %d\n", x, y);
-				printf("char c : %c\n", c);
-				s()->p.X = x;
-				s()->p.Y = y;
+				s()->p.x = x;
+				s()->p.y = y;
 				if (c == 'N')
 				{
 					s()->p.dir_x = 0;
@@ -65,8 +82,11 @@ void init_player(void)
 					s()->p.plane_x = 0.0;
 					s()->p.plane_y = -0.66;
 				}
+				found = 1;
 			}
+			x++;
 		}
+		y++;
 	}
 	return;
 }
@@ -81,7 +101,10 @@ void	init_game(void)
 		return ;
 	init_tex();
 	s()->img = mlx_new_image(s()->mlx, WIDTH, HEIGHT);
-	s()->pixel_data = mlx_get_data_addr(s()->img, &s()->bpp, &s()->size_line, &s()->endian);
+	s()->pixel_data
+	= mlx_get_data_addr(s()->img,
+	&s()->bpp,
+	&s()->size_line, &s()->endian);
 	mlx_put_image_to_window(s()->mlx, s()->win, s()->img, 0, 0);
 	mlx_hook(s()->win, 17, 0L, close_window_cross, NULL);
 	mlx_hook(s()->win, 2, 1L << 0, key_press, NULL);

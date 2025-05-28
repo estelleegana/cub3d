@@ -11,20 +11,20 @@ void	draw_vertical_line(int x, double distance, int orientation, double raydir_x
 		basDuMur = HEIGHT - 1;
 
 	t_texture *texture;
-	if (orientation == 0 && raydir_x > 0) // Est
+	if (orientation == 0 && raydir_x > 0)
 		texture = &s()->t[2];
-	else if (orientation == 0 && raydir_x < 0) // Ouest
+	else if (orientation == 0 && raydir_x < 0)
 		texture = &s()->t[3];
-	else if (orientation == 1 && raydir_y > 0) // Sud
+	else if (orientation == 1 && raydir_y > 0)
 		texture = &s()->t[1];
-	else // Nord
+	else
 		texture = &s()->t[0];
 
 	double wallX;
 	if (orientation == 0)
-		wallX = s()->p.Y + distance * raydir_y;
+		wallX = s()->p.y + distance * raydir_y;
 	else
-		wallX = s()->p.X + distance * raydir_x;
+		wallX = s()->p.x + distance * raydir_x;
 	wallX -= floor(wallX);
 
 	int texX = (int)(wallX * (double)texture->w);
@@ -54,8 +54,8 @@ void cast_ray(int x)
 	double cameraX = 2 * x / (double)WIDTH - 1;
 	double raydir_x = s()->p.dir_x + s()->p.plane_x * cameraX;
 	double raydir_y = s()->p.dir_y + s()->p.plane_y * cameraX;
-	int mapX = (int)s()->p.X;
-	int mapY = (int)s()->p.Y;
+	int mapX = (int)s()->p.x;
+	int mapY = (int)s()->p.y;
 	double deltaDistX = fabs(1 / raydir_x);
 	double deltaDistY = fabs(1 / raydir_y);
 	double sideDistX, sideDistY;
@@ -63,30 +63,27 @@ void cast_ray(int x)
 	double distance;
 	double orientation;
 	int hit;
-
-	//initialisation DDA
+	
 	if (raydir_x < 0)
 	{
 		stepX = -1;
-		sideDistX = (s()->p.X - mapX) * deltaDistX;
+		sideDistX = (s()->p.x - mapX) * deltaDistX;
 	}
 	else
 	{
 		stepX = 1;
-		sideDistX = (mapX + 1.0 - s()->p.X) * deltaDistX;
+		sideDistX = (mapX + 1.0 - s()->p.x) * deltaDistX;
 	}
 	if (raydir_y < 0)
 	{
 		stepY = -1;
-		sideDistY = (s()->p.Y - mapY) * deltaDistY;
+		sideDistY = (s()->p.y - mapY) * deltaDistY;
 	}
 	else
 	{
 		stepY = 1;
-		sideDistY = (mapY + 1.0 - s()->p.Y) * deltaDistY;
+		sideDistY = (mapY + 1.0 - s()->p.y) * deltaDistY;
 	}
-
-	//algo DDA
 	hit = 0;
 	while (hit == 0)
 	{
@@ -103,29 +100,31 @@ void cast_ray(int x)
 			orientation = 1;
 		}
 		if (mapX < 0 || mapY >= s()->map.line || mapY < 0 || mapX >= s()->map.columns)
-			break;
+			break ;
 		if (s()->map.data[mapY][mapX])
 		{
-			if(s()->map.data[mapY][mapX] == '1')
+			if (s()->map.data[mapY][mapX] == '1')
 				hit = 1;
 		}
 	}
-
 	if (orientation == 0)
-		distance = (mapX - s()->p.X + (1 - stepX) / 2) / raydir_x;
+		distance = (mapX - s()->p.x + (1 - stepX) / 2) / raydir_x;
 	else
-		distance = (mapY - s()->p.Y + (1 - stepY) / 2) / raydir_y;
-
+		distance = (mapY - s()->p.y + (1 - stepY) / 2) / raydir_y;
 	draw_vertical_line(x, distance, orientation, raydir_x, raydir_y);
 }
 
-int raycasting()
+int	raycasting(void)
 {
-	clear_image();
-	for (int x = 0; x < WIDTH; x++)
-		// put_tex(3);
-		cast_ray(x);
-	mlx_put_image_to_window(s()->mlx, s()->win, s()->img, 0,0);
-	return 0;
-}
+	int	x;
 
+	x = 0;
+	clear_image();
+	while (x < WIDTH)
+	{
+		cast_ray(x);
+		x++;
+	}
+	mlx_put_image_to_window(s()->mlx, s()->win, s()->img, 0, 0);
+	return (0);
+}

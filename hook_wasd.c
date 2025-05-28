@@ -17,12 +17,12 @@ void	key_w(void)
 	double	new_x;
 	double	new_y;
 
-	new_x = s()->p.X + s()->p.dir_x * speed;
-	new_y = s()->p.Y + s()->p.dir_y * speed;
-	if (s()->map.data[(int)s()->p.Y][(int)new_x] != '1')
-		s()->p.X = new_x;
-	if (s()->map.data[(int)new_y][(int)s()->p.X] != '1')
-		s()->p.Y = new_y;
+	new_x = s()->p.x + s()->p.dir_x * SPEED;
+	new_y = s()->p.y + s()->p.dir_y * SPEED;
+	if (s()->map.data[(int)s()->p.y][(int)new_x] != '1')
+		s()->p.x = new_x;
+	if (s()->map.data[(int)new_y][(int)s()->p.x] != '1')
+		s()->p.y = new_y;
 }
 
 void	key_s(void)
@@ -30,12 +30,12 @@ void	key_s(void)
 	double	new_x;
 	double	new_y;
 
-	new_x = s()->p.X - s()->p.dir_x * speed;
-	new_y = s()->p.Y - s()->p.dir_y * speed;
-	if (s()->map.data[(int)s()->p.Y][(int)new_x] != '1')
-		s()->p.X = new_x;
-	if (s()->map.data[(int)new_y][(int)s()->p.X] != '1')
-		s()->p.Y = new_y;
+	new_x = s()->p.x - s()->p.dir_x * SPEED;
+	new_y = s()->p.y - s()->p.dir_y * SPEED;
+	if (s()->map.data[(int)s()->p.y][(int)new_x] != '1')
+		s()->p.x = new_x;
+	if (s()->map.data[(int)new_y][(int)s()->p.x] != '1')
+		s()->p.y = new_y;
 }
 
 void	key_a(void)
@@ -43,12 +43,12 @@ void	key_a(void)
 	double	newplane_x;
 	double	newplane_y;
 
-	newplane_x = s()->p.X - s()->p.plane_x * speed;
-	newplane_y = s()->p.Y - s()->p.plane_y * speed;
-	if (s()->map.data[(int)s()->p.Y][(int)newplane_x] != '1')
-		s()->p.X = newplane_x;
-	if (s()->map.data[(int)newplane_y][(int)s()->p.X] != '1')
-		s()->p.Y = newplane_y;
+	newplane_x = s()->p.x - s()->p.plane_x * SPEED;
+	newplane_y = s()->p.y - s()->p.plane_y * SPEED;
+	if (s()->map.data[(int)s()->p.y][(int)newplane_x] != '1')
+		s()->p.x = newplane_x;
+	if (s()->map.data[(int)newplane_y][(int)s()->p.x] != '1')
+		s()->p.y = newplane_y;
 }
 
 void	key_d(void)
@@ -56,10 +56,10 @@ void	key_d(void)
 	double	newplane_x;
 	double	newplane_y;
 
-	newplane_x = s()->p.X + s()->p.plane_x * speed;
-	newplane_y = s()->p.Y + s()->p.plane_y * speed;
-	if (s()->map.data[(int)s()->p.Y][(int)newplane_x] != '1')
-		s()->p.X = newplane_x;
-	if (s()->map.data[(int)newplane_y][(int)s()->p.X] != '1')
-		s()->p.Y = newplane_y;
+	newplane_x = s()->p.x + s()->p.plane_x * SPEED;
+	newplane_y = s()->p.y + s()->p.plane_y * SPEED;
+	if (s()->map.data[(int)s()->p.y][(int)newplane_x] != '1')
+		s()->p.x = newplane_x;
+	if (s()->map.data[(int)newplane_y][(int)s()->p.x] != '1')
+		s()->p.y = newplane_y;
 }
