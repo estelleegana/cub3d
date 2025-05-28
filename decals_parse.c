@@ -79,8 +79,8 @@ int	handle_decals(char *filename, t_config *conf)
 	int		fd_decals;
 
 	fd_decals = open(filename, O_RDONLY);
-	if (fd_decals < 0)
-		return (0);
+	if (fd_decals < 0 || fd_decals > 2)
+		return (printf("error: wrong textures\n"), 0);
 	get_nextline = get_next_line(fd_decals);
 	while (get_nextline)
 	{
