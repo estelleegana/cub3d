@@ -29,6 +29,8 @@ t_texture	*select_tex(void)
 
 void	calcul_distances(void)
 {
+	if (s()->r.distance == 0.0)
+		s()->r.distance = 0.1;
 	s()->r.hauteur = (int)(HEIGHT / s()->r.distance);
 	s()->r.mur_haut = -s()->r.hauteur / 2 + HEIGHT / 2;
 	if (s()->r.mur_haut < 0)

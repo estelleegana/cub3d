@@ -49,8 +49,8 @@ void	set_player_pos(double dir_x, double dir_y,
 
 void	init_player_pos(char c, int x, int y)
 {
-	s()->p.x = x;
-	s()->p.y = y;
+	s()->p.x = x + 0.5;
+	s()->p.y = y + 0.5;
 	if (c == 'N')
 		set_player_pos(0, -1, 0.66, 0.0);
 	if (c == 'S')
