@@ -16,6 +16,7 @@ SRC = decals_parse.c \
 	utils_struct.c\
 	includes/gnl/get_next_line_utils.c \
 	includes/gnl/get_next_line.c\
+	map_check.c
 
 OBJ_DIR = objs
 LIBFT_DIR = includes/libft

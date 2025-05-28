@@ -131,6 +131,7 @@ int			handle_rgb(int identifier, t_config *conf, char **rgb);
 int			handle_files(char *line, t_config *conf, int identifier);
 int			find_identifier(char *line);
 int			parse_identifier(char *line, int identifier0, t_config *conf);
+int			check_map(void);
 
 //deplacement (wasd.c rotations.c)
 void		key_w(void);
