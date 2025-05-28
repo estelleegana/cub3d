@@ -85,6 +85,23 @@ typedef struct s_keys
 	int	left;
 }	t_keys;
 
+typedef struct s_ray
+{
+	double	camera_x;
+	double	raydir_x;
+	double	raydir_y;
+	int		map_x;
+	int		map_y;
+	double	deltadist_x;
+	double	deltadist_y;
+	double	sidedist_x;
+	double	sidedist_y;
+	int		step_x;
+	int		step_y;
+	double	distance;
+	double	orientation;
+}	t_ray;
+
 typedef struct s_config
 {
 	void		*mlx;
@@ -100,6 +117,7 @@ typedef struct s_config
 	t_texture	screen;
 	t_player	p;
 	t_keys		k;
+	t_ray		r;
 }	t_config;
 
 //parsing
@@ -135,7 +153,7 @@ void		put_tex_NSEW(int NSEW, int hauteur, int x, int y, int tex_x);
 int			rgb_to_hex(t_color color);
 void		put_pixel(int x, int y, int color, t_config *game);
 void		clear_image(void);
-void		draw_vertical_line(int x, double distance, int orientation, double raydir_x, double raydir_y);
+void		draw_vertical_line(int x);
 void		cast_ray(int x);
 int			raycasting(void);
 

@@ -1,117 +1,121 @@
 #include "cub3d.h"
 
-void	draw_vertical_line(int x, double distance, int orientation, double raydir_x, double raydir_y)
+void	draw_vertical_line(int x)
 {
-	int hauteur = (int)(HEIGHT / distance);
-	int hautDuMur = -hauteur / 2 + HEIGHT / 2;
-	if (hautDuMur < 0)
-		hautDuMur = 0;
-	int basDuMur = hauteur / 2 + HEIGHT / 2;
-	if (basDuMur >= HEIGHT)
-		basDuMur = HEIGHT - 1;
-
+	int	h;
+	int	mur_haut;
+	int	mur_bas;
 	t_texture *texture;
-	if (orientation == 0 && raydir_x > 0)
+
+	h = (int)(HEIGHT / s()->r.distance);
+	mur_haut = -h / 2 + HEIGHT / 2;
+	if (mur_haut < 0)
+		mur_haut = 0;
+	mur_bas = h / 2 + HEIGHT / 2;
+	if (mur_bas >= HEIGHT)
+		mur_bas = HEIGHT - 1;
+
+	if (s()->r.orientation == 0 && s()->r.raydir_x > 0)
 		texture = &s()->t[2];
-	else if (orientation == 0 && raydir_x < 0)
+	else if (s()->r.orientation == 0 && s()->r.raydir_x < 0)
 		texture = &s()->t[3];
-	else if (orientation == 1 && raydir_y > 0)
+	else if (s()->r.orientation == 1 && s()->r.raydir_y > 0)
 		texture = &s()->t[1];
 	else
 		texture = &s()->t[0];
 
 	double wallX;
-	if (orientation == 0)
-		wallX = s()->p.y + distance * raydir_y;
+	if (s()->r.orientation == 0)
+		wallX = s()->p.y + s()->r.distance * s()->r.raydir_y;
 	else
-		wallX = s()->p.x + distance * raydir_x;
+		wallX = s()->p.x + s()->r.distance * s()->r.raydir_x;
 	wallX -= floor(wallX);
 
 	int texX = (int)(wallX * (double)texture->w);
-	if ((orientation == 0 && raydir_x < 0) || (orientation == 1 && raydir_y > 0))
+	if ((s()->r.orientation == 0 && s()->r.raydir_x < 0) || (s()->r.orientation == 1 && s()->r.raydir_y > 0))
 		texX = texture->w - texX - 1;
 
-	double step = 1.0 * texture->h / hauteur;
-	double texPos = (hautDuMur - HEIGHT / 2 + hauteur / 2) * step;
+	double step = 1.0 * texture->h / h;
+	double texPos = (mur_haut - HEIGHT / 2 + h / 2) * step;
 	
-	for (int c = 0; c < hautDuMur; c++)
+	for (int c = 0; c < mur_haut; c++)
 		put_pixel(x, c, rgb_to_hex(s()->decals.ceiling_color), s());
 
-	for (int y = hautDuMur; y < basDuMur; y++)
+	for (int y = mur_haut; y < mur_bas; y++)
 	{
 		int texY = (int)texPos & (texture->h - 1);
 		texPos += step;
 		int color = *(int *)(texture->addr + (texY * texture->line_len + texX * (texture->bpp / 8)));
 		put_pixel(x, y, color, s());
 	}
-	for (int f = basDuMur; f < HEIGHT; f++)
+	for (int f = mur_bas; f < HEIGHT; f++)
 		put_pixel(x, f, rgb_to_hex(s()->decals.floor_color), s());
 }
 
-//pr chaque colonne x de la largeur de l'ecran
+void	init_raycast(int x)
+{
+	s()->r.camera_x = 2 * x / (double)WIDTH - 1;
+	s()->r.raydir_x = s()->p.dir_x + s()->p.plane_x * s()->r.camera_x;
+	s()->r.raydir_y = s()->p.dir_y + s()->p.plane_y * s()->r.camera_x;
+	s()->r.map_x = (int)s()->p.x;
+	s()->r.map_y = (int)s()->p.y;
+	s()->r.deltadist_x = fabs(1 / s()->r.raydir_x);
+	s()->r.deltadist_y = fabs(1 / s()->r.raydir_y);
+}
+
 void cast_ray(int x)
 {
-	double cameraX = 2 * x / (double)WIDTH - 1;
-	double raydir_x = s()->p.dir_x + s()->p.plane_x * cameraX;
-	double raydir_y = s()->p.dir_y + s()->p.plane_y * cameraX;
-	int mapX = (int)s()->p.x;
-	int mapY = (int)s()->p.y;
-	double deltaDistX = fabs(1 / raydir_x);
-	double deltaDistY = fabs(1 / raydir_y);
-	double sideDistX, sideDistY;
-	int stepX, stepY;
-	double distance;
-	double orientation;
 	int hit;
-	
-	if (raydir_x < 0)
+
+	init_raycast(x);
+	if (s()->r.raydir_x < 0)
 	{
-		stepX = -1;
-		sideDistX = (s()->p.x - mapX) * deltaDistX;
+		s()->r.step_x = -1;
+		s()->r.sidedist_x = (s()->p.x - s()->r.map_x) * s()->r.deltadist_x;
 	}
 	else
 	{
-		stepX = 1;
-		sideDistX = (mapX + 1.0 - s()->p.x) * deltaDistX;
+		s()->r.step_x = 1;
+		s()->r.sidedist_x = (s()->r.map_x + 1.0 - s()->p.x) * s()->r.deltadist_x;
 	}
-	if (raydir_y < 0)
+	if (s()->r.raydir_y < 0)
 	{
-		stepY = -1;
-		sideDistY = (s()->p.y - mapY) * deltaDistY;
+		s()->r.step_y = -1;
+		s()->r.sidedist_y = (s()->p.y - s()->r.map_y) * s()->r.deltadist_y;
 	}
 	else
 	{
-		stepY = 1;
-		sideDistY = (mapY + 1.0 - s()->p.y) * deltaDistY;
+		s()->r.step_y = 1;
+		s()->r.sidedist_y = (s()->r.map_y + 1.0 - s()->p.y) * s()->r.deltadist_y;
 	}
 	hit = 0;
 	while (hit == 0)
 	{
-		if (sideDistX < sideDistY)
+		if (s()->r.sidedist_x < s()->r.sidedist_y)
 		{
-			sideDistX += deltaDistX;
-			mapX += stepX;
-			orientation = 0;
+			s()->r.sidedist_x += s()->r.deltadist_x;
+			s()->r.map_x += s()->r.step_x;
+			s()->r.orientation = 0;
 		}
 		else
 		{
-			sideDistY += deltaDistY;
-			mapY += stepY;
-			orientation = 1;
+			s()->r.sidedist_y += s()->r.deltadist_y;
+			s()->r.map_y += s()->r.step_y;
+			s()->r.orientation = 1;
 		}
-		if (mapX < 0 || mapY >= s()->map.line || mapY < 0 || mapX >= s()->map.columns)
+		if (s()->r.map_x < 0 || s()->r.map_y >= s()->map.line || s()->r.map_y < 0 || s()->r.map_x >= s()->map.columns)
 			break ;
-		if (s()->map.data[mapY][mapX])
+		if (s()->map.data[s()->r.map_y][s()->r.map_x])
 		{
-			if (s()->map.data[mapY][mapX] == '1')
+			if (s()->map.data[s()->r.map_y][s()->r.map_x] == '1')
 				hit = 1;
 		}
 	}
-	if (orientation == 0)
-		distance = (mapX - s()->p.x + (1 - stepX) / 2) / raydir_x;
+	if (s()->r.orientation == 0)
+		s()->r.distance = (s()->r.map_x - s()->p.x + (1 - s()->r.step_x) / 2) / s()->r.raydir_x;
 	else
-		distance = (mapY - s()->p.y + (1 - stepY) / 2) / raydir_y;
-	draw_vertical_line(x, distance, orientation, raydir_x, raydir_y);
+		s()->r.distance = (s()->r.map_y - s()->p.y + (1 - s()->r.step_y) / 2) / s()->r.raydir_y;
+	draw_vertical_line(x);
 }
 
 int	raycasting(void)
