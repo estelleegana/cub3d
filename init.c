@@ -14,8 +14,10 @@
 
 void	init_tex(void)
 {
-	int	i;
+	int			i;
+	t_config	*config;
 
+	config = s();
 	s()->t = malloc(sizeof(t_texture) * 4);
 	s()->t[0].path = s()->decals.n.path;
 	s()->t[1].path = s()->decals.s.path;
@@ -24,87 +26,83 @@ void	init_tex(void)
 	i = 0;
 	while (i < 4)
 	{
-		s()->t[i].img = mlx_xpm_file_to_image(s()->mlx,
-		s()->t[i].path, &s()->t[i].w, &s()->t[i].h);
+		config->t[i].img = mlx_xpm_file_to_image(config->mlx,
+				config->t[i].path, &config->t[i].w, &config->t[i].h);
 		if (!s()->t[i].img)
 			return ;
-		s()->t[i].addr = mlx_get_data_addr(s()->t[i].img,
-		&s()->t[i].bpp, &s()->t[i].line_len, &s()->t[i].endian);
+		config->t[i].addr = mlx_get_data_addr(config->t[i].img,
+				&config->t[i].bpp, &config->t[i].line_len, &s()->t[i].endian);
 		if (!s()->t[i].addr)
 			return ;
 		i++;
 	}
 }
 
-void init_player(void)
+void	set_player_pos(double dir_x, double dir_y,
+	double plane_x, double plane_y)
 {
-	char c;
-	int y;
-	int found;
+	s()->p.dir_x = dir_x;
+	s()->p.dir_y = dir_y;
+	s()->p.plane_x = plane_x;
+	s()->p.plane_y = plane_y;
+}
+
+void	init_player_pos(char c, int x, int y)
+{
+	s()->p.x = x;
+	s()->p.y = y;
+	if (c == 'N')
+		set_player_pos(0, -1, 0.66, 0.0);
+	if (c == 'S')
+		set_player_pos(0, 1, -0.66, 0.0);
+	if (c == 'E')
+		set_player_pos(1, 0, 0.0, 0.66);
+	if (c == 'W')
+		set_player_pos(-1, 0, 0.0, -0.66);
+}
+
+void	init_player(void)
+{
+	char	c;
+	int		y;
+	int		found;
+	int		x;
 
 	y = 0;
 	found = 0;
 	while (y < s()->map.line && !found)
 	{
-		int x = 0;
+		x = 0;
 		while (x < s()->map.columns && s()->map.data[y][x] && !found)
 		{
 			c = s()->map.data[y][x];
 			if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			{
-				s()->p.x = x;
-				s()->p.y = y;
-				if (c == 'N')
-				{
-					s()->p.dir_x = 0;
-					s()->p.dir_y = -1;
-					s()->p.plane_x = 0.66;
-					s()->p.plane_y = 0.0;
-				}
-				if (c == 'S')
-				{
-					s()->p.dir_x = 0;
-					s()->p.dir_y = 1;
-					s()->p.plane_x = -0.66;
-					s()->p.plane_y = 0.0;
-				}
-				if (c == 'E')
-				{
-					s()->p.dir_x = 1;
-					s()->p.dir_y = 0;
-					s()->p.plane_x = 0.0;
-					s()->p.plane_y = 0.66;
-				}
-				if (c == 'W')
-				{
-					s()->p.dir_x = -1;
-					s()->p.dir_y = 0;
-					s()->p.plane_x = 0.0;
-					s()->p.plane_y = -0.66;
-				}
+				init_player_pos(c, x, y);
 				found = 1;
 			}
 			x++;
 		}
 		y++;
 	}
-	return;
+	return ;
 }
 
 void	init_game(void)
 {
+	t_config	*config;
+
+	config = s();
 	s()->mlx = mlx_init();
 	if (s()->mlx == NULL)
 		return ;
-	s()->win = mlx_new_window(s()->mlx, WIDTH, HEIGHT, NAME);
+	config->win = mlx_new_window(config->mlx, WIDTH, HEIGHT, NAME);
 	if (s()->win == NULL)
 		return ;
 	init_tex();
-	s()->img = mlx_new_image(s()->mlx, WIDTH, HEIGHT);
-	s()->pixel_data
-	= mlx_get_data_addr(s()->img,
-	&s()->bpp,
-	&s()->size_line, &s()->endian);
+	config->img = mlx_new_image(config->mlx, WIDTH, HEIGHT);
+	config->pixel_data = mlx_get_data_addr(config->img, &config->bpp,
+			&config->size_line, &config->endian);
 	mlx_put_image_to_window(s()->mlx, s()->win, s()->img, 0, 0);
 	mlx_hook(s()->win, 17, 0L, close_window_cross, NULL);
 	mlx_hook(s()->win, 2, 1L << 0, key_press, NULL);
