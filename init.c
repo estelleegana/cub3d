@@ -96,13 +96,13 @@ void	init_game(void)
 	config->mlx = mlx_init();
 	if (config->mlx == NULL)
 	{
-		free_map();
+		free_decals_map();
 		exit(1);
 	}
 	config->win = mlx_new_window(config->mlx, WIDTH, HEIGHT, NAME);
 	if (config->win == NULL)
 	{
-		free_map();
+		free_decals_map();
 		exit(1);
 	}
 	init_tex();

@@ -25,7 +25,7 @@ int	handle_files(char *line, t_config *conf, int identifier)
 	if (ft_strncmp(filename + ft_strlen(filename) - 4, ".xpm\0", 5))
 		return (write(2, "Files must be .xpm\n", 19), 0);
 	if (open(filename, O_DIRECTORY) != -1)
-		return (printf("texture is a directory\n"), 0);
+		return (write(2, "texture is a directory\n", 120), 0);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (write(2, "a File can't open\n", 18), 0);

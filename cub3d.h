@@ -185,5 +185,6 @@ t_config	*s(void);
 //utils : free
 void		free_map(void);
 void		free_textures(void);
+void		free_decals_map(void);
 
 #endif

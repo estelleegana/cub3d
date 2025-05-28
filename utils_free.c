@@ -44,3 +44,22 @@ void	free_textures(void)
 	free(s()->decals.w.path);
 	free(s()->decals.e.path);
 }
+
+void	free_decals_map(void)
+{
+	int	i;
+
+	i = 0;
+	if (!s()->map.data)
+		return ;
+	while (s()->map.data[i])
+	{
+		free(s()->map.data[i]);
+		i++;
+	}
+	free(s()->map.data);
+	free(s()->decals.n.path);
+	free(s()->decals.s.path);
+	free(s()->decals.w.path);
+	free(s()->decals.e.path);
+}
