@@ -37,8 +37,13 @@ void	free_textures(void)
 		if (s()->t[i].img)
 		{
 			mlx_destroy_image(s()->mlx, s()->t[i].img);
-			s()->t[i].img = NULL;
+
 		}
 		i++;
 	}
+	mlx_destroy_image(s()->mlx, s()->img);
+	free(s()->decals.n.path);
+	free(s()->decals.s.path);
+	free(s()->decals.w.path);
+	free(s()->decals.e.path);
 }

@@ -14,18 +14,24 @@
 
 int	close_window_echap(void)
 {
+	free_textures();
 	mlx_destroy_window(s()->mlx, s()->win);
 	mlx_destroy_display(s()->mlx);
+	free_map();
 	free(s()->mlx);
+	free(s()->t);
 	exit(0);
 	return (0);
 }
 
 int	close_window_cross(void)
 {
+	free_textures();
 	mlx_destroy_window(s()->mlx, s()->win);
 	mlx_destroy_display(s()->mlx);
+	free_map();
 	free(s()->mlx);
+	free(s()->t);
 	exit(0);
 }
 

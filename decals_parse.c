@@ -88,12 +88,13 @@ int	handle_decals(char *filename, t_config *conf)
 		if (identifier)
 		{
 			if (!parse_identifier(get_nextline, identifier, conf))
-				return (free(get_nextline), 0);
+				return (free(get_nextline), close(fd_decals), 0);
 		}
 		else
-			break ;
+			free(get_nextline);
 		get_nextline = get_next_line(fd_decals);
 	}
 	free(get_nextline);
+	close(fd_decals);
 	return (1);
 }
