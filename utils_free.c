@@ -71,3 +71,15 @@ void	free_decals(void)
 	free(s()->decals.w.path);
 	free(s()->decals.e.path);
 }
+
+void	free_gnl(char *get_nextline, int fd_decals)
+{
+	free(get_nextline);
+	get_nextline = get_next_line(fd_decals);
+	while (get_nextline)
+	{
+		free(get_nextline);
+		get_nextline = get_next_line(fd_decals);
+	}
+	close(fd_decals);
+}

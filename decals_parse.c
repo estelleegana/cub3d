@@ -84,36 +84,30 @@ int	handle_rgb(int identifier, t_config *conf, char **rgb)
 	}
 	return (1);
 }
+
 int	handle_decals(char *filename, t_config *conf)
 {
-    char	*get_nextline;
-    int		identifier;
-    int		fd_decals;
+	char	*get_nextline;
+	int		identifier;
+	int		fd_decals;
 
-    fd_decals = open(filename, O_RDONLY);
-    if (fd_decals < 0)
-        return (0);
-    get_nextline = get_next_line(fd_decals);
-    while (get_nextline)
-    {
-        identifier = find_identifier(get_nextline);
-        if (identifier)
-        {
-            if (!parse_identifier(get_nextline, identifier, conf))
-            {
-                free(get_nextline);
-                while ((get_nextline = get_next_line(fd_decals)))
-                    free(get_nextline);
-                close(fd_decals);
-                return (0);
-            }
-        }
-        else
-            free(get_nextline);
-        get_nextline = get_next_line(fd_decals);
-    }
-    free(get_nextline);
-    close(fd_decals);
-    return (1);
+	fd_decals = open(filename, O_RDONLY);
+	if (fd_decals < 0)
+		return (0);
+	get_nextline = get_next_line(fd_decals);
+	while (get_nextline)
+	{
+		identifier = find_identifier(get_nextline);
+		if (identifier)
+		{
+			if (!parse_identifier(get_nextline, identifier, conf))
+				return (free_gnl(get_nextline, fd_decals), 0);
+		}
+		else
+			free(get_nextline);
+		get_nextline = get_next_line(fd_decals);
+	}
+	free(get_nextline);
+	close(fd_decals);
+	return (1);
 }
-

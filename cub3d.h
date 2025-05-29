@@ -187,5 +187,6 @@ void		free_map(void);
 void		free_textures(void);
 void		free_decals_map(void);
 void		free_decals(void);
+void		free_gnl(char *get_nextline, int fd_decals);
 
 #endif
