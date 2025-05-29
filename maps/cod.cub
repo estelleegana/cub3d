@@ -1,4 +1,4 @@
-NO ./test_decals/greystone.xpm
+NO                 ./test_decals/greystone.xpm
 SO test_decals/eagle.xpm
 WE test_decals/mossy.xpm
 EA test_decals/eagle.xpm
