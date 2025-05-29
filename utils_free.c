@@ -63,3 +63,11 @@ void	free_decals_map(void)
 	free(s()->decals.w.path);
 	free(s()->decals.e.path);
 }
+
+void	free_decals(void)
+{
+	free(s()->decals.n.path);
+	free(s()->decals.s.path);
+	free(s()->decals.w.path);
+	free(s()->decals.e.path);
+}

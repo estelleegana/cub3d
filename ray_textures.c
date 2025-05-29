@@ -43,7 +43,6 @@ void	calcul_distances(void)
 void	draw_vertical_line(int x)
 {
 	t_texture	*texture;
-	double		step;
 
 	calcul_distances();
 	texture = select_tex();
@@ -56,7 +55,6 @@ void	draw_vertical_line(int x)
 	if ((s()->r.orientation == 0 && s()->r.raydir_x < 0)
 		|| (s()->r.orientation == 1 && s()->r.raydir_y > 0))
 		s()->r.tex_x = texture->w - s()->r.tex_x - 1;
-	step = 1.0 * texture->h / s()->r.hauteur;
 	draw_ceiling(x, s()->r.mur_haut);
 	draw_wall(x, s()->r.mur_haut, s()->r.mur_bas, texture);
 	draw_floor(x, s()->r.mur_bas);
