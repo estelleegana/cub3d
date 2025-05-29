@@ -12,6 +12,19 @@
 
 #include "cub3d.h"
 
+void	free_rgb(char **rgb)
+{
+	int	i;
+
+	i = 0;
+	while (rgb[i])
+	{
+		free(rgb[i]);
+		i++;
+	}
+	free(rgb);
+}
+
 int	parse_identifier(char *line, int identifier, t_config *conf)
 {
 	char	**rgb;
@@ -35,23 +48,10 @@ int	parse_identifier(char *line, int identifier, t_config *conf)
 		rgb = ft_split(line + 2, ',');
 		i = 0;
 		if (!handle_rgb(identifier, conf, rgb))
-		{
-			while (rgb[i])
-			{
-				free(rgb[i]);
-				i++;
-			}
-			return (free(rgb), free_map(), free_decals(), 0);
-		}	
-		while (rgb[i])
-		{
-			free(rgb[i]);
-			i++;
-		}
-		free(rgb);
+			return (free_rgb(rgb), free_map(), free_decals(), 0);
+		free_rgb(rgb);
 	}
-	free(line);
-	return (1);
+	return (free(line), 1);
 }
 
 int	find_identifier(char *line)
