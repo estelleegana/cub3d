@@ -73,6 +73,9 @@ int	check_map(void)
 			if (map[i][j] == 'N' || map[i][j] == 'S' ||
 					map[i][j] == 'E' || map[i][j] == 'W')
 				player_count++;
+			else if(map[i][j] != '0' && map[i][j] != '1' &&
+					map[i][j] != ' ' && map[i][j] != '\0')
+				return(write(2, "Charactere non autorise\n",24), 0);
 			j++;
 		}
 		i++;
