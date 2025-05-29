@@ -15,7 +15,9 @@
 int	parse_identifier(char *line, int identifier, t_config *conf)
 {
 	char	**rgb;
+	int		i;
 
+	i = 3;
 	if (identifier <= 5 && identifier >= 2)
 	{
 		if (!handle_files(line, conf, identifier))
@@ -23,14 +25,16 @@ int	parse_identifier(char *line, int identifier, t_config *conf)
 	}
 	else if (identifier == 6 || identifier == 7)
 	{
+		while (line[i])
+		{
+			if (!ft_isdigit(line[i]) && line[i] != ','
+				&& line[i] != '\0' && line[i] != '\n')
+				return (free_map(), free_decals(), 0);
+			i++;
+		}
 		rgb = ft_split(line + 2, ',');
 		if (!handle_rgb(identifier, conf, rgb))
-		{
-			free(rgb[0]);
-			free(rgb[1]);
-			free(rgb[2]);
 			return (free(rgb), free_map(), free_decals(), 0);
-		}
 		free(rgb);
 	}
 	free(line);

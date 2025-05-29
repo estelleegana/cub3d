@@ -70,8 +70,6 @@ int	handle_rgb(int identifier, t_config *conf, char **rgb)
 	i = 0;
 	while (rgb[i])
 	{
-		if (ft_strlen(rgb[i]) > 11)
-			return (write(2, "Incorrect format for RGB\n", 25), 0);
 		number = ft_atoi(rgb[i]);
 		if (number < 0 || number > 255)
 			return (write(2, "Incorrect format for RGB\n", 25), 0);
@@ -82,6 +80,8 @@ int	handle_rgb(int identifier, t_config *conf, char **rgb)
 		free(rgb[i]);
 		i++;
 	}
+	if (i > 3)
+		return (write(2, "Incorrect format for RGB\n", 25), 0);
 	return (1);
 }
 
