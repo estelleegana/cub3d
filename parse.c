@@ -25,7 +25,12 @@ int	parse_identifier(char *line, int identifier, t_config *conf)
 	{
 		rgb = ft_split(line + 2, ',');
 		if (!handle_rgb(identifier, conf, rgb))
-			return (free(rgb), 0);
+		{
+			free(rgb[0]);
+			free(rgb[1]);
+			free(rgb[2]);
+			return (free(rgb), free_map(), free_decals(), 0);
+		}
 		free(rgb);
 	}
 	free(line);
