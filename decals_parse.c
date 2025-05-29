@@ -17,13 +17,29 @@
 void	set_text_path(int identifier, char *filename, t_config *conf)
 {
 	if (identifier == 2)
+	{
+		if (conf->decals.n.path)
+			free(conf->decals.n.path);
 		conf->decals.n.path = ft_strdup(filename);
+	}
 	else if (identifier == 3)
+	{
+		if (conf->decals.s.path)
+			free(conf->decals.s.path);
 		conf->decals.s.path = ft_strdup(filename);
+	}
 	else if (identifier == 4)
+	{
+		if (conf->decals.w.path)
+			free(conf->decals.w.path);
 		conf->decals.w.path = ft_strdup(filename);
+	}
 	else if (identifier == 5)
+	{
+		if (conf->decals.e.path)
+			free(conf->decals.e.path);
 		conf->decals.e.path = ft_strdup(filename);
+	}
 }
 
 int	handle_files(char *line, t_config *conf, int identifier)
@@ -77,7 +93,6 @@ int	handle_rgb(int identifier, t_config *conf, char **rgb)
 			set_rgb_color(&conf->decals.floor_color, i, number);
 		else if (identifier == 7)
 			set_rgb_color(&conf->decals.ceiling_color, i, number);
-		free(rgb[i]);
 		i++;
 	}
 	if (i > 3)

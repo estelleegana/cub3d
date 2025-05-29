@@ -2,7 +2,7 @@ NO ./test_decals/greystone.xpm
 SO ./test_decals/greystone.xpm
 WE test_decals/mossy.xpm
 EA test_decals/eagle.xpm
-F 255,0,0
+F 255,0,0,455
 C 255,0,0
 
 1111111

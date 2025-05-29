@@ -43,6 +43,11 @@ int	parse_identifier(char *line, int identifier, t_config *conf)
 			}
 			return (free(rgb), free_map(), free_decals(), 0);
 		}	
+		while (rgb[i])
+		{
+			free(rgb[i]);
+			i++;
+		}
 		free(rgb);
 	}
 	free(line);
