@@ -89,6 +89,8 @@ int	handle_map(char *filename)
 	start_map = ft_count_line_column(filename);
 	if (start_map == 0)
 		return (write(2, "Error // No map found\n", 22), 0);
+	if (start_map > 6)
+		return (write(2, "Error // Trop d'element dans le header\n", 39), 0);
 	s()->map.data = malloc(sizeof(char *) * (s()->map.line + 1));
 	if (!s()->map.data)
 		return (write(2, "Error // Memory allocation failed\n", 35), 0);

@@ -1,5 +1,5 @@
 NO ./test_decals/greystone.xpm
-SO test_decals/eagle.xpm
+NO ./test_decals/greystone.xpm
 WE test_decals/mossy.xpm
 EA test_decals/eagle.xpm
 F 220,100,0

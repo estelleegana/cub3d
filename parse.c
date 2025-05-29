@@ -74,5 +74,11 @@ int	parse_cub(char *filename)
 		return (0);
 	if (!handle_decals(filename, conf))
 		return (0);
+	if (!conf->decals.n.path || !conf->decals.s.path
+		|| !conf->decals.w.path || !conf->decals.e.path)
+	{
+		write(2, "Error // Missing texture identifier\n", 36);
+		return (0);
+	}
 	return (1);
 }
