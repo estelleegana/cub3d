@@ -96,6 +96,6 @@ int	handle_map(char *filename)
 	s()->map.columns = 0;
 	fill_map(filename);
 	if (!check_map())
-		return (free_map(),0);
+		return (free_map(), 0);
 	return (1);
 }
