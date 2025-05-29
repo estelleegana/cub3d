@@ -12,6 +12,18 @@
 
 #include "cub3d.h"
 
+void	set_text_path(int identifier, char *filename, t_config *conf)
+{
+	if (identifier == 2)
+		conf->decals.n.path = ft_strdup(filename);
+	else if (identifier == 3)
+		conf->decals.s.path = ft_strdup(filename);
+	else if (identifier == 4)
+		conf->decals.w.path = ft_strdup(filename);
+	else if (identifier == 5)
+		conf->decals.e.path = ft_strdup(filename);
+}
+
 int	handle_files(char *line, t_config *conf, int identifier)
 {
 	int		fd;
@@ -23,22 +35,15 @@ int	handle_files(char *line, t_config *conf, int identifier)
 	if (len > 0 && filename[len - 1] == '\n')
 		filename[len - 1] = '\0';
 	if (ft_strncmp(filename + ft_strlen(filename) - 4, ".xpm\0", 5))
-		return (write(2, "Files must be .xpm\n", 19), 0);
+		return (free_map(), write(2, "Files must be .xpm\n", 19), 0);
 	while (*filename == ' ')
 		filename++;
 	if (open(filename, O_DIRECTORY) != -1)
-		return (write(2, "texture is a directory\n", 120), 0);
+		return (free_map(), write(2, "texture is a directory\n", 120), 0);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (write(2, "a File can't open\n", 18), 0);
-	if (identifier == 2)
-		conf->decals.n.path = ft_strdup(filename);
-	else if (identifier == 3)
-		conf->decals.s.path = ft_strdup(filename);
-	else if (identifier == 4)
-		conf->decals.w.path = ft_strdup(filename);
-	else if (identifier == 5)
-		conf->decals.e.path = ft_strdup(filename);
+		return (free_map(), write(2, "a File can't open\n", 18), 0);
+	set_text_path(identifier, filename, conf);
 	return (close(fd), 1);
 }
 
