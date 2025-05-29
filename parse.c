@@ -33,8 +33,16 @@ int	parse_identifier(char *line, int identifier, t_config *conf)
 			i++;
 		}
 		rgb = ft_split(line + 2, ',');
+		i = 0;
 		if (!handle_rgb(identifier, conf, rgb))
+		{
+			while (rgb[i])
+			{
+				free(rgb[i]);
+				i++;
+			}
 			return (free(rgb), free_map(), free_decals(), 0);
+		}	
 		free(rgb);
 	}
 	free(line);
@@ -78,6 +86,8 @@ int	parse_cub(char *filename)
 		|| !conf->decals.w.path || !conf->decals.e.path)
 	{
 		write(2, "Error // Missing texture identifier\n", 36);
+		free_map();
+		free_decals();
 		return (0);
 	}
 	return (1);
