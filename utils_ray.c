@@ -40,6 +40,7 @@ void	clear_image(void)
 	x = 0;
 	while (y < HEIGHT)
 	{
+		
 		while (x < WIDTH)
 		{
 			put_pixel(x, y, 0, s());

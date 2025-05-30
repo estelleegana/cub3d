@@ -34,7 +34,7 @@ void	draw_wall(int x, int mur_haut, int mur_bas, t_texture *texture)
 	step = 1.0 * texture->h / s()->r.hauteur;
 	tex_pos = (mur_haut - HEIGHT / 2 + s()->r.hauteur / 2) * step;
 	y = mur_haut;
-	while (y < mur_bas)
+	while (y <= mur_bas)
 	{
 		s()->r.tex_y = (int)tex_pos & (texture->h - 1);
 		tex_pos += step;
@@ -49,7 +49,9 @@ void	draw_floor(int x, int mur_bas)
 {
 	int	f;
 
-	f = mur_bas;
+	if (mur_bas >= HEIGHT || mur_bas < 0)
+        mur_bas = HEIGHT;
+    f = mur_bas + 1;
 	while (f < HEIGHT)
 	{
 		put_pixel(x, f, rgb_to_hex(s()->decals.floor_color), s());
