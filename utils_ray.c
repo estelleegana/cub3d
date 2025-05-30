@@ -37,10 +37,9 @@ void	clear_image(void)
 	int	x;
 
 	y = 0;
-	x = 0;
 	while (y < HEIGHT)
 	{
-		
+		x = 0;
 		while (x < WIDTH)
 		{
 			put_pixel(x, y, 0, s());
