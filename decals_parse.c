@@ -59,7 +59,7 @@ int	handle_files(char *line, t_config *conf, int identifier)
 		filename++;
 	if (open(filename, O_DIRECTORY) != -1)
 		return (free_map(), free_decals(),
-			write(2, "texture is a directory\n", 120), 0);
+			write(2, "texture is a directory\n", 23), 0);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (free_map(), free_decals(),

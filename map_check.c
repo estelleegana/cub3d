@@ -53,14 +53,12 @@ int	ismapvalid(void)
 	return (1);
 }
 
-int	check_map(void)
+int	check_map_chars(char **map)
 {
-	int		i;
-	int		j;
-	int		player_count;
-	char	**map;
+	int	i;
+	int	j;
+	int	player_count;
 
-	map = s()->map.data;
 	player_count = 0;
 	i = 0;
 	while (map[i])
@@ -71,16 +69,26 @@ int	check_map(void)
 			if (map[i][j] == '\n')
 				map[i][j] = '\0';
 			if (map[i][j] == 'N' || map[i][j] == 'S' ||
-					map[i][j] == 'E' || map[i][j] == 'W')
+				map[i][j] == 'E' || map[i][j] == 'W')
 				player_count++;
-			else if(map[i][j] != '0' && map[i][j] != '1' &&
+			else if (map[i][j] != '0' && map[i][j] != '1' &&
 					map[i][j] != ' ' && map[i][j] != '\0')
-				return(write(2, "Charactere non autorise\n",24), 0);
+				return (write(2, "wrong character\n", 16), -1);
 			j++;
 		}
 		i++;
 	}
-	if (player_count != 1 || ismapvalid() != 1)
+	return (player_count);
+}
+
+int	check_map(void)
+{
+	char	**map;
+	int		pc;
+
+	map = s()->map.data;
+	pc = check_map_chars(map);
+	if (pc == -1 || pc != 1 || ismapvalid() != 1)
 		return (0);
 	return (1);
 }
