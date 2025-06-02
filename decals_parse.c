@@ -95,7 +95,7 @@ int	handle_rgb(int identifier, t_config *conf, char **rgb)
 			set_rgb_color(&conf->decals.ceiling_color, i, number);
 		i++;
 	}
-	if (i > 3)
+	if (i != 3)
 		return (write(2, "Incorrect format for RGB\n", 25), 0);
 	return (1);
 }
