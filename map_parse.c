@@ -103,7 +103,6 @@ int	handle_map(char *filename)
 	int	start_map;
 
 	start_map = ft_count_line_column(filename);
-	printf("start_map = %d\n", start_map);
 	if (start_map == 0)
 		return (0);
 	if (start_map > 6)
