@@ -50,8 +50,8 @@ void	draw_floor(int x, int mur_bas)
 	int	f;
 
 	if (mur_bas >= HEIGHT || mur_bas < 0)
-        mur_bas = HEIGHT;
-    f = mur_bas + 1;
+		mur_bas = HEIGHT;
+	f = mur_bas + 1;
 	while (f < HEIGHT)
 	{
 		put_pixel(x, f, rgb_to_hex(s()->decals.floor_color), s());

@@ -14,30 +14,36 @@
 
 void	key_w(void)
 {
-    double	new_x;
-    double	new_y;
-    double	margin = 0.01;
+	double	new_x;
+	double	new_y;
+	double	margin;
 
-    new_x = s()->p.x + s()->p.dir_x * SPEED;
-    new_y = s()->p.y + s()->p.dir_y * SPEED;
-    if (s()->map.data[(int)(s()->p.y)][(int)(new_x + margin * s()->p.dir_x)] != '1')
-        s()->p.x = new_x;
-    if (s()->map.data[(int)(new_y + margin * s()->p.dir_y)][(int)(s()->p.x)] != '1')
-        s()->p.y = new_y;
+	margin = 0.01;
+	new_x = s()->p.x + s()->p.dir_x * SPEED;
+	new_y = s()->p.y + s()->p.dir_y * SPEED;
+	if (s()->map.data[(int)(s()->p.y)][(int)(new_x + margin * s()->p.dir_x)]
+		!= '1')
+		s()->p.x = new_x;
+	if (s()->map.data[(int)(new_y + margin * s()->p.dir_y)][(int)(s()->p.x)]
+		!= '1')
+		s()->p.y = new_y;
 }
 
 void	key_s(void)
 {
-    double	new_x;
-    double	new_y;
-    double	margin = 0.01;
+	double	new_x;
+	double	new_y;
+	double	margin;
 
-    new_x = s()->p.x - s()->p.dir_x * SPEED;
-    new_y = s()->p.y - s()->p.dir_y * SPEED;
-    if (s()->map.data[(int)(s()->p.y)][(int)(new_x - margin * s()->p.dir_x)] != '1')
-        s()->p.x = new_x;
-    if (s()->map.data[(int)(new_y - margin * s()->p.dir_y)][(int)(s()->p.x)] != '1')
-        s()->p.y = new_y;
+	margin = 0.01;
+	new_x = s()->p.x - s()->p.dir_x * SPEED;
+	new_y = s()->p.y - s()->p.dir_y * SPEED;
+	if (s()->map.data[(int)(s()->p.y)][(int)(new_x - margin * s()->p.dir_x)]
+		!= '1')
+		s()->p.x = new_x;
+	if (s()->map.data[(int)(new_y - margin * s()->p.dir_y)][(int)(s()->p.x)]
+		!= '1')
+		s()->p.y = new_y;
 }
 
 void	key_a(void)

@@ -55,31 +55,47 @@ int	fill_map(char *filename)
 	return (start_map);
 }
 
+int	check_header_map(char *get_nline, int *start_map, int *map_passed, int fd)
+{
+	if (find_identifier(get_nline))
+	{
+		if (*map_passed)
+			return (write(2, "Error // Header found after map.\n", 33),
+				free_gnl(get_nline, fd), 0);
+		(*start_map)++;
+	}	
+	else
+	{
+		if (is_a_map_line(get_nline))
+		{
+			*map_passed = 1;
+			s()->map.line++;
+		}
+	}
+	return (1);
+}
+
 int	ft_count_line_column(char *filename)
 {
 	int		fd;
 	char	*get_nline;
 	int		start_map;
+	int		map_passed;
 
 	start_map = 0;
+	map_passed = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (0);
 	get_nline = get_next_line(fd);
 	while (get_nline)
 	{
-		if (find_identifier(get_nline))
-			start_map++;
-		else
-		{
-			if (is_a_map_line(get_nline))
-				s()->map.line++;
-		}
+		if (!check_header_map(get_nline, &start_map, &map_passed, fd))
+			return (close(fd), 0);
 		free(get_nline);
 		get_nline = get_next_line(fd);
 	}
-	close(fd);
-	return (start_map);
+	return (close(fd), start_map);
 }
 
 int	handle_map(char *filename)
@@ -87,8 +103,9 @@ int	handle_map(char *filename)
 	int	start_map;
 
 	start_map = ft_count_line_column(filename);
+	printf("start_map = %d\n", start_map);
 	if (start_map == 0)
-		return (write(2, "Error // No map found\n", 22), 0);
+		return (0);
 	if (start_map > 6)
 		return (write(2, "Error // Trop d'element dans le header\n", 39), 0);
 	s()->map.data = malloc(sizeof(char *) * (s()->map.line + 1));
